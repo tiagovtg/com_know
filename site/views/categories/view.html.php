@@ -59,6 +59,18 @@ class KnowViewCategories extends JViewLegacy
 
 		$params = &$state->params;
 
+		foreach ($items as $i => $item)
+		{
+			$categoryModel = JModelLegacy::getInstance('Category', 'KnowModel', array('ignore_request' => true));
+			$categoryModel->setState('category.id', $item->id);
+			$categoryModel->setState('list.ordering', 'a.created');
+			$categoryModel->setState('list.direction', 'desc');
+			$categoryModel->setState('filter.published', 1);
+			$categoryModel->setState('list.limit', 5);
+
+			$items[$i]->knows = $categoryModel->getItems();
+		}
+
 		$items = array($parent->id => $items);
 
 		// Escape strings for HTML output
