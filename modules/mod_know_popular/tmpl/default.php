@@ -9,25 +9,12 @@
 // No direct access
 defined('_JEXEC') or die;
 ?>
-<ul>
+<ul class="know-popular<?php echo $moduleclass_sfx; ?>">
+	<?php foreach ($list as $item) : ?>
 	<li class="standard">
 		<h5>
-			<a href="#">Varios templates no CMS Joomla!</a>
+			<a href="<?php echo $item->link; ?>"><?php echo htmlspecialchars($item->name); ?></a>
 		</h5>
 	</li>
-	<li class="standard">
-		<h5>
-			<a href="#">Criação e Administração de Menus</a>
-		</h5>
-	</li>
-	<li class="standard">
-		<h5>
-			<a href="#">Enviando e-mail através de um plugin</a>
-		</h5>
-	</li>
-	<li class="standard">
-		<h5>
-			<a href="#">Entendendo como funciona as tarefas (task)</a>
-		</h5>
-	</li>
+	<?php endforeach; ?>
 </ul>

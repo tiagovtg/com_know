@@ -9,6 +9,10 @@
 // No direct access
 defined('_JEXEC') or die;
 
+require_once JPATH_SITE . '/components/com_know/helpers/route.php';
+
+jimport('joomla.application.categories');
+
 /**
  * Know Categories module helper.
  *
@@ -16,7 +20,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_knowcategories
  * @since       2.5
  */
-abstract class ModKnowCategoriesHelper
+abstract class modKnowCategoriesHelper
 {
 	/**
 	 * Get a list of the category items.
@@ -29,27 +33,14 @@ abstract class ModKnowCategoriesHelper
 	 */
 	public static function getList(&$params)
 	{
-		// Initialiase variables.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$categories = JCategories::getInstance('Know');
+		$category = $categories->get($params->get('parent', 'root'));
 
-		// Prepare query.
-		$query->select('a.*');
-		$query->from('#__know AS a');
-		$query->where('a.published = 1');
-		$query->order('a.ordering ASC');
-
-		// Inject the query and load the items.
-		$db->setQuery($query);
-		$items = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
+		if ($category != null)
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-			return null;
-		}
+			$items = $category->getChildren();
 
-		return $items;
+			return $items;
+		}
 	}
 }

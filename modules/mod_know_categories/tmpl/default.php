@@ -10,28 +10,10 @@
 defined('_JEXEC') or die;
 ?>
 <ul>
+	<?php foreach ($list as $item) : ?>
 	<li>
-		<span>6</span>
-		<a href="#">Template</a>
+		<span><?php echo htmlspecialchars($item->numitems); ?></span>
+		<a href="<?php echo JRoute::_(KnowHelperRoute::getCategoryRoute($item->id)); ?>"><?php echo htmlspecialchars($item->title); ?></a>
 	</li>
-	<li>
-		<span>5</span>
-		<a href="#">Componente</a>
-	</li>
-	<li>
-		<span>6</span>
-		<a href="#">Modulo</a>
-	</li>
-	<li>
-		<span>5</span>
-		<a href="#">Plugin</a>
-	</li>
-	<li>
-		<span>5</span>
-		<a href="#">Biblioteca</a>
-	</li>
-	<li>
-		<span>6</span>
-		<a href="#">Administração</a>
-	</li>
+	<?php endforeach ?>
 </ul>

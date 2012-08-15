@@ -16,14 +16,14 @@ defined('_JEXEC') or die;
 	<div class="row">
 		<?php foreach($group as $id => $item) : ?>
 		<div class="six columns <?php echo ($id % 2) ? 'omega' : 'alpha'; ?>">
-			<h3>
+			<h2>
 				<a href="<?php echo JRoute::_(KnowHelperRoute::getCategoryRoute($item->id)); ?>"><?php echo $this->escape($item->title); ?></a>
 				<span class="count">(<?php echo $item->numitems; ?>)</span>
-			</h3>
+			</h2>
 			<ul>
 				<?php foreach ($item->knows as $know): ?>
 				<li>
-					<a href="<?php echo JRoute::_(KnowHelperRoute::getKnowRoute($know->id, $know->catid)); ?>"><?php echo $this->escape($know->name); ?></a>
+					<a href="<?php echo JRoute::_(KnowHelperRoute::getKnowRoute($know->slug, $know->catslug)); ?>"><?php echo $this->escape($know->name); ?></a>
 				</li>
 				<?php endforeach ?>
 			</ul>

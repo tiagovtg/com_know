@@ -68,7 +68,16 @@ class KnowViewCategories extends JViewLegacy
 			$categoryModel->setState('filter.published', 1);
 			$categoryModel->setState('list.limit', 5);
 
-			$items[$i]->knows = $categoryModel->getItems();
+			$knows = $categoryModel->getItems();
+
+			foreach ($knows as $know)
+			{
+				// Add router helpers.
+				$know->slug    = $know->alias ? ($know->id . ':' . $know->alias) : $know->id;
+				$know->catslug = $know->category_alias ? ($know->catid . ':' . $know->category_alias) : $know->catid;
+			}
+
+			$items[$i]->knows = $knows;
 		}
 
 		$items = array($parent->id => $items);

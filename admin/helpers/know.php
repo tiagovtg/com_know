@@ -32,9 +32,9 @@ class KnowHelper
 	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(
-			JText::_('COM_KNOW_SUBMENU_KNOW'),
-			'index.php?option=com_know&view=know',
-			$vName == 'know'
+			JText::_('COM_KNOW_SUBMENU_KNOWS'),
+			'index.php?option=com_know&view=knows',
+			$vName == 'knows'
 		);
 		JSubMenuHelper::addEntry(
 			JText::_('COM_KNOW_SUBMENU_CATEGORIES'),

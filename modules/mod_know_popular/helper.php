@@ -9,6 +9,10 @@
 // No direct access
 defined('_JEXEC') or die;
 
+require_once JPATH_SITE . '/components/com_know/helpers/route.php';
+
+JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_know/models', 'KnowModel');
+
 /**
  * Know Popular module helper.
  *
@@ -29,25 +33,51 @@ abstract class ModKnowPopularHelper
 	 */
 	public static function getList(&$params)
 	{
-		// Initialiase variables.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		// Get an instance of the generic articles model
+		$model = JModelLegacy::getInstance('Knows', 'KnowModel', array('ignore_request' => true));
 
-		// Prepare query.
-		$query->select('a.*');
-		$query->from('#__know AS a');
-		$query->where('a.published = 1');
-		$query->order('a.ordering ASC');
+		// Set application parameters in model
+		$app = JFactory::getApplication();
+		$appParams = $app->getParams();
+		$model->setState('params', $appParams);
 
-		// Inject the query and load the items.
-		$db->setQuery($query);
-		$items = $db->loadObjectList();
+		// Set the filters based on the module params
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', (int) $params->get('count', 5));
+		$model->setState('filter.published', 1);
+		$model->setState('filter.featured', $params->get('show_front', 1) == 1 ? 'show' : 'hide');
 
-		// Check for a database error.
-		if ($db->getErrorNum())
+		// Access filter
+		$access = !JComponentHelper::getParams('com_know')->get('show_noauth');
+		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
+		$model->setState('filter.access', $access);
+
+		// Category filter
+		$model->setState('filter.category_id', $params->get('catid', array()));
+
+		// Filter by language
+		$model->setState('filter.language', $app->getLanguageFilter());
+
+		// Ordering
+		$model->setState('list.ordering', 'a.hits');
+		$model->setState('list.direction', 'DESC');
+
+		$items = $model->getItems();
+
+		foreach ($items as &$item)
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-			return null;
+			$item->slug = $item->id . ':' . $item->alias;
+			$item->catslug = $item->catid . ':' . $item->category_alias;
+
+			if ($access || in_array($item->access, $authorised))
+			{
+				// We know that user has the privilege to view the article
+				$item->link = JRoute::_(KnowHelperRoute::getKnowRoute($item->slug, $item->catslug));
+			}
+			else
+			{
+				$item->link = JRoute::_('index.php?option=com_users&view=login');
+			}
 		}
 
 		return $items;

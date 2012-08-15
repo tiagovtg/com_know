@@ -36,6 +36,7 @@ class KnowCategories extends JCategories
 		$options['table'] = '#__know';
 		$options['extension'] = 'com_know';
 		$options['statefield'] = 'published';
+		$options['countItems'] = 1;
 
 		parent::__construct($options);
 	}

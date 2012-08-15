@@ -9,25 +9,12 @@
 // No direct access
 defined('_JEXEC') or die;
 ?>
-<ul>
-	<li class="video">
-		<h5>
-			<a href="#">Como criar template com Skeleton</a>
-		</h5>
-	</li>
+<ul class="know-latest<?php echo $moduleclass_sfx; ?>">
+	<?php foreach ($list as $item) : ?>
 	<li class="standard">
 		<h5>
-			<a href="#">Como criar template com Grid 960</a>
+			<a href="<?php echo $item->link; ?>"><?php echo htmlspecialchars($item->name); ?></a>
 		</h5>
 	</li>
-	<li class="standard">
-		<h5>
-			<a href="#">Personalizando página de Offline</a>
-		</h5>
-	</li>
-	<li class="standard">
-		<h5>
-			<a href="#">Adicionando a biblioteca WideImage</a>
-		</h5>
-	</li>
+	<?php endforeach; ?>
 </ul>

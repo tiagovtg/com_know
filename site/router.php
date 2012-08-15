@@ -28,7 +28,7 @@ function knowBuildRoute(&$query)
 	$app    = JFactory::getApplication();
 	$menu   = $app->getMenu();
 	$params = JComponentHelper::getParams('com_know');
-	$advanced = $params->get('sef_advanced_link', 0);
+	$advanced = $params->get('sef_advanced_link', 1);
 
 	if (empty($query['Itemid']))
 	{
@@ -162,7 +162,7 @@ function knowParseRoute($segments)
 	$menu   = $app->getMenu();
 	$item   = $menu->getActive();
 	$params = JComponentHelper::getParams('com_know');
-	$advanced = $params->get('sef_advanced_link', 0);
+	$advanced = $params->get('sef_advanced_link', 1);
 
 	// Count route segments
 	$count = count($segments);
